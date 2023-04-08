@@ -9,9 +9,9 @@ function App() {
     const quicknodeRPCConfig = {
       chainId: '0x13881',
             chainName: 'Polygon',
-            blockExplorerUrls: ['https://polygonscan.com'],
+            blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
             nativeCurrency: {symbol: 'MATIC', decimals: 18},
-            rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+            rpcUrls: ['https://red-multi-valley.matic-testnet.discover.quiknode.pro/61b21728fa928158390362bfe247eab7ee8c68e7/'],
     };
   async function testingphantom () {
     
