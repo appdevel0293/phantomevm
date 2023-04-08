@@ -4,8 +4,7 @@ import { ethers } from 'ethers';
 import { Web3Provider } from '@ethersproject/providers';
 
 function App() {
-  async function testingphantom () {
-    const provider = window.ethereum;// see "Detecting the Provider"
+  const provider = window.ethereum;// see "Detecting the Provider"
    
     const quicknodeRPCConfig = {
       chainId: '0x13881',
@@ -14,6 +13,8 @@ function App() {
             nativeCurrency: {symbol: 'MATIC', decimals: 18},
             rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
     };
+  async function testingphantom () {
+    
 
     try {
       const accounts = await provider.request({ method: "eth_requestAccounts", params:[quicknodeRPCConfig] });
@@ -34,6 +35,7 @@ function App() {
           gasLimit: '0x5028',
           gasPrice: '0x2540be400',
           type: '0x0',
+          quicknodeRPCConfig,
         },
       ],
     });
