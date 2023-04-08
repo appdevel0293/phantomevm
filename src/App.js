@@ -8,7 +8,7 @@ function App() {
   const customRpcEndpoint = 'https://red-multi-valley.matic-testnet.discover.quiknode.pro/61b21728fa928158390362bfe247eab7ee8c68e7/';
 
   // Create a Web3Provider instance using the custom RPC endpoint
-  const provider = new Web3Provider(new ethers.providers.JsonRpcProvider(customRpcEndpoint));
+  const provider = new Web3Provider(new ethers.JsonRpcProvider(customRpcEndpoint));
 
   async function testphantom() {
     // Use the provider to send transactions
