@@ -1,70 +1,31 @@
 import logo from './logo.svg';
 import './App.css';
-import { Web3Provider } from "@ethersproject/providers";
-import * as ethers from "ethers";
+import { ethers } from 'ethers';
+import { Web3Provider } from '@ethersproject/providers';
 
 function App() {
-  //window.phantom.ethereum
-/*   const isPhantomInstalled = window.phantom?.solana?.isPhantom;
-  console.log("phantominstalled",isPhantomInstalled);
-  console.log("phantometh",window.ethereum);
-  const getProvider = async () => {
-    if ("solana" in window) {
-        await window.ethereum.connect();
-        const provider = window.ethereum;
+  // URL of your custom RPC endpoint
+  const customRpcEndpoint = 'https://red-multi-valley.matic-testnet.discover.quiknode.pro/61b21728fa928158390362bfe247eab7ee8c68e7/';
 
-        if (provider.isPhantom) {
-            return provider;
-        }
+  // Create a Web3Provider instance using the custom RPC endpoint
+  const provider = new Web3Provider(new ethers.providers.JsonRpcProvider(customRpcEndpoint));
 
-    } else {
-        //window.open("https://phantom.app/", "_blank");
-    }
-} */
-
-  async function testingphantom () {
-    const provider = window.ethereum;// see "Detecting the Provider"
-    try {
-      const accounts = await provider.request({ method: "eth_requestAccounts" });
-      console.log(accounts[0]);
-      // 0x534583cd8cE0ac1af4Ce01Ae4f294d52b4Cd305F
-    } catch (err) {
-      console.log(err)
-    // { code: 4001, message: 'User rejected the request.' }
-    }
+  async function testphantom() {
+    // Use the provider to send transactions
+    const accounts = await provider.listAccounts();
+    const result = await provider.send('eth_sendTransaction', [
+    {
+      from: accounts[0],
+      to: '0x0c54FcCd2e384b4BB6f2E405Bf5Cbc15a017AaFb',
+      value: '0x0',
+      gasLimit: '0x5028',
+      gasPrice: '0x2540be400',
+      type: '0x0',
+    },
+    ]);
   }
-  testingphantom();
-  /* window.onload = () => {
+  testphantom();
 
-            getProvider().then(provider => {
-                ////!('key', provider.publicKey.toString())
-                ////!('esta conectado')
-                //walletConnect
-                this.setState({
-                    walletConnect: true
-                })
-                global.config.datawallet = window.solana;
-
-            })
-                .catch(function (error) {
-                    ////!(error)
-                    ////!('esta desconectado')
-                    //walletConnect
-                    //this.state.walletConnect = false;
-                    this.setState({
-                        walletConnect: false
-                    })
-                }
-                )
-
-            ////!(localStorage.userEmail);
-            if (localStorage.userEmail) {
-                this.setState({
-                    viewLoginOrNot: true
-                })
-            }
-
-        } */
   return (
     
     <div className="App">
