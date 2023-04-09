@@ -64,6 +64,13 @@ function App() {
   
   testingphantom(); */
 
+  const quicknodeRPCConfig = {
+    chainId: '0x13881',
+    chainName: 'Polygon',
+    blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+    nativeCurrency: {symbol: 'MATIC', decimals: 18},
+    rpcUrls: ['https://red-multi-valley.matic-testnet.discover.quiknode.pro/61b21728fa928158390362bfe247eab7ee8c68e7/'],
+  };
   const isPhantomInstalled = window?.phantom?.ethereum?.isPhantom;
   console.log(isPhantomInstalled);
   const getProvider = () => {
@@ -75,7 +82,19 @@ function App() {
       console.log("provider",provider);
      
       if (provider) {
-        return provider;
+        
+        provider.request({
+          method: 'wallet_switchEthereumChain',
+          params: [quicknodeRPCConfig]
+        }).then(() => {
+          console.log("changeprovider=>",provider)
+          return provider;
+        }).catch((error) => {
+          console.log(error)
+        });
+        
+        
+        //return provider;
       }
     }else{
       window.open('https://phantom.app/', '_blank');
