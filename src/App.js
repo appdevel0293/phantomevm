@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import { Web3Provider } from '@ethersproject/providers';
 
 function App() {
-  console.log("detectamos el provider");
+ /*  console.log("detectamos el provider");
   const provider = window.ethereum;// see "Detecting the Provider"
   console.log("provider:",provider);
   
@@ -62,8 +62,23 @@ function App() {
     console.log(result);
   }
   
-  testingphantom();
+  testingphantom(); */
 
+  const isPhantomInstalled = window?.phantom?.ethereum?.isPhantom;
+  console.log(isPhantomInstalled);
+  const getProvider = () => {
+    if ('phantom' in window) {
+      const anyWindow = window;
+      const provider = anyWindow.phantom?.ethereum;
+     
+      if (provider) {
+        return provider;
+      }
+    }
+  
+    window.open('https://phantom.app/', '_blank');
+  };
+  getProvider();
   return (
     
     <div className="App">
