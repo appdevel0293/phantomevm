@@ -67,7 +67,7 @@ function App() {
   const isPhantomInstalled = window?.phantom?.ethereum?.isPhantom;
   console.log(isPhantomInstalled);
   const getProvider = () => {
-    if ('phantom' in window) {
+    if (isPhantomInstalled) {
       const anyWindow = window;
       const provider = anyWindow.phantom?.ethereum;
      
