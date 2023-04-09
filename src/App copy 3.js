@@ -4,52 +4,51 @@ import { ethers } from 'ethers';
 import { Web3Provider } from '@ethersproject/providers';
 
 function App() {
-  console.log("detectamos el provider");
   const provider = window.ethereum;// see "Detecting the Provider"
-  console.log("provider:",provider);
-  
   const quicknodeRPCConfig = {
     chainId: '0x13881',
     chainName: 'Polygon',
-    blockExplorerUrls: ['https://polygonscan.com'],
+    blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
     nativeCurrency: {symbol: 'MATIC', decimals: 18},
-    rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+    rpcUrls: ['https://red-multi-valley.matic-testnet.discover.quiknode.pro/61b21728fa928158390362bfe247eab7ee8c68e7/'],
   };
-  
-  async function testingphantom () {
-    console.log("testeamos conectar con el provider");
+
+  if(provider){
+    provider.request({
+      method: 'wallet_addEthereumChain',
+      params: [quicknodeRPCConfig]
+    }).then(() => {
+      // custom RPC added successfully
+      testingphantom();
+    }).catch((error) => {
+      // handle error
+    });
+  }
+   
+    
+  async function testingphantom () {   
     try {
       const accounts = await provider.request({ method: "eth_requestAccounts", params:[quicknodeRPCConfig] });
-      console.log("cuenta obtenida del provider",accounts[0]);
-      changechain(accounts[0]);
+      console.log(accounts[0]);
+      testingtx(accounts[0]);
     } catch (err) {
       console.log(err)
     }
   }
 
-  async function changechain (account) {
-    console.log("cambiamos a testnet");
-    try {
-      const changechainid = await provider.request({ method: "wallet_addEthereumChain", params:[quicknodeRPCConfig] });
-      testingtx(account,changechainid);
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
-  async function testingtx (account,changechainid) {
-    console.log("cuenta=>",account);
-    console.log("chaindata=>",changechainid);
+  async function testingtx (account) {
     const result = await provider.request({
       method: 'eth_sendTransaction',
       params: [
         {
           from: account,
-          to: '0x0000000000000000000000000000000000000000',
+          to: '0x75e01f1Ebd58302B5b67e67825fa6917749b5896',
           value: '0x0',
           gasLimit: '0x5028',
           gasPrice: '0x2540be400',
           type: '0x0',
+          quicknodeRPCConfig,
         },
       ],
     });
@@ -57,7 +56,6 @@ function App() {
     console.log(result);
   }
   
-  testingphantom();
 
   return (
     
