@@ -73,7 +73,7 @@ function App() {
   };
   const isPhantomInstalled = window?.phantom?.ethereum?.isPhantom;
   console.log(isPhantomInstalled);
-  const getProvider = () => {
+  const getProvider = async () => {
     if (isPhantomInstalled) {
       console.log("inside if");
       const anyWindow = window;
@@ -83,7 +83,7 @@ function App() {
      
       if (provider) {
         
-        provider.request({
+        /* provider.request({
           method: 'wallet_switchEthereumChain',
           params: [quicknodeRPCConfig]
         }).then(() => {
@@ -91,7 +91,26 @@ function App() {
           return provider;
         }).catch((error) => {
           console.log(error)
-        });
+        }); */
+         // Request permission to access the wallet_switchEthereumChain method
+  provider.request({
+    method: 'wallet_requestPermissions',
+    params: [{ eth_accounts: {} }]
+  }).then((permissions) => {
+    // Permission granted, switch the network
+    provider.request({
+      method: 'wallet_switchEthereumChain',
+      params: [quicknodeRPCConfig]
+    }).then(() => {
+      // The user has switched to the Polygon network
+      sendtx();
+      // Now you can send transactions on the Polygon network
+    }).catch((error) => {
+      console.error(error);
+    });
+  }).catch((error) => {
+    console.error(error);
+  });
         
         
         //return provider;
@@ -114,7 +133,7 @@ function App() {
     }
   }
   
-  sendtx();
+  //sendtx();
   
   return (
     
