@@ -93,24 +93,22 @@ function App() {
           console.log(error)
         }); */
          // Request permission to access the wallet_switchEthereumChain method
-  provider.request({
-    method: 'wallet_requestPermissions',
-    params: [{ eth_accounts: {} }]
-  }).then((permissions) => {
-    // Permission granted, switch the network
-    provider.request({
-      method: 'wallet_switchEthereumChain',
-      params: [quicknodeRPCConfig]
-    }).then(() => {
-      // The user has switched to the Polygon network
-      sendtx();
-      // Now you can send transactions on the Polygon network
-    }).catch((error) => {
-      console.error(error);
-    });
-  }).catch((error) => {
-    console.error(error);
-  });
+         provider.request({
+          method: 'eth_requestAccounts'
+        }).then((accounts) => {
+          // Permission granted, switch the network
+          provider.request({
+            method: 'wallet_switchEthereumChain',
+            params: [quicknodeRPCConfig]
+          }).then(() => {
+            // The user has switched to the Polygon network
+            // Now you can send transactions on the Polygon network
+          }).catch((error) => {
+            console.error(error);
+          });
+        }).catch((error) => {
+          console.error(error);
+        });
         
         
         //return provider;
