@@ -16,7 +16,7 @@ function App() {
   if(provider){
     provider.request({
       method: 'wallet_addEthereumChain',
-      params: [customRpcConfig]
+      params: [quicknodeRPCConfig]
     }).then(() => {
       // custom RPC added successfully
       testingphantom();
@@ -27,7 +27,6 @@ function App() {
    
     
   async function testingphantom () {   
-
     try {
       const accounts = await provider.request({ method: "eth_requestAccounts", params:[quicknodeRPCConfig] });
       console.log(accounts[0]);
@@ -37,7 +36,7 @@ function App() {
     }
   }
 
-  
+
   async function testingtx (account) {
     const result = await provider.request({
       method: 'eth_sendTransaction',
