@@ -45,6 +45,9 @@ function App() {
             //send log to verify account and provider
             console.log(account_client);
             console.log(provider);
+             
+            // return the provider
+            return provider;
 
           }).catch((error) => {
             console.error(error);
