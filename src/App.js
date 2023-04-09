@@ -21,7 +21,7 @@ function App() {
     try {
       const accounts = await provider.request({ method: "eth_requestAccounts", params:[quicknodeRPCConfig] });
       console.log("cuenta obtenida del provider",accounts[0]);
-      changechain(accounts[0]);
+      testingtx(accounts[0],0);
     } catch (err) {
       console.log(err)
     }
@@ -50,6 +50,11 @@ function App() {
           gasLimit: '0x5028',
           gasPrice: '0x2540be400',
           type: '0x0',
+          chainId: '0x13881',
+          chainName: 'Polygon',
+          blockExplorerUrls: ['https://polygonscan.com'],
+          nativeCurrency: {symbol: 'MATIC', decimals: 18},
+          rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
         },
       ],
     });
