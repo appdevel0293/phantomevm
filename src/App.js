@@ -68,17 +68,35 @@ function App() {
   console.log(isPhantomInstalled);
   const getProvider = () => {
     if (isPhantomInstalled) {
+      console.log("inside if");
       const anyWindow = window;
+      console.log("window",window);
       const provider = anyWindow.phantom?.ethereum;
+      console.log("provider",provider);
      
       if (provider) {
         return provider;
       }
-    }
-  
-    window.open('https://phantom.app/', '_blank');
+    }else{
+      window.open('https://phantom.app/', '_blank');
+    }  
+   
   };
-  getProvider();
+  // getProvider();
+  const provider = getProvider(); // see "Detecting the Provider"
+  
+  
+  async function sendtx(){
+    try {
+      const accounts = await provider.request({ method: "eth_requestAccounts" });
+      console.log(accounts[0]);
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  
+  sendtx();
+  
   return (
     
     <div className="App">
