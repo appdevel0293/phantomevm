@@ -80,11 +80,7 @@ function App() {
   
   //Get provider with Polygon and Mumbai - QuickNode RPC
   getProvider();
-  /*
   
-          gasLimit: web3.utils.toHex(web3.utils.toWei('0.001', 'gwei')),
-          gasPrice: web3.utils.toHex(web3.utils.toWei('0.001', 'gwei')),
-  */
   
   //Create a Tx example in Polygon Mumbai network - QuickNode RPC
   async function testingtx () {
@@ -98,6 +94,8 @@ function App() {
           from: account_client,
           to: '0x75e01f1Ebd58302B5b67e67825fa6917749b5896',
           value: web3.utils.toHex(web3.utils.toWei('0.001', 'gwei')),
+          gasLimit: web3.utils.toHex(web3.utils.toWei('0.001', 'gwei')),
+          gasPrice: web3.utils.toHex(web3.utils.toWei('0.001', 'gwei')),
         },
       ],
     });
