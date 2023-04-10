@@ -1,9 +1,12 @@
 import './App.css';
+import { Web3 } from 'web3';
 
 function App() {
 
   //create var to save account
   var account_client = null;
+
+  var web3 = null; 
 
   //Get provider with Polygon and Mumbai - QuickNode RPC
   var phantomProviderEVM = null;
@@ -52,6 +55,7 @@ function App() {
 
             if(phantomProviderEVM===null){
               phantomProviderEVM = provider;
+              web3 = new Web3(phantomProviderEVM);
               console.log("asignProvider",phantomProviderEVM);
             }
             
@@ -89,10 +93,9 @@ function App() {
         {
           from: account_client,
           to: '0x75e01f1Ebd58302B5b67e67825fa6917749b5896',
-          value: '0x0',
-          gasLimit: '0x5028',
-          gasPrice: '0x2540be400',
-          type: '0x0',
+          value: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
+          gasLimit: web3.utils.toHex(web3.utils.toWei('5', 'gwei')),
+          gasPrice: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
         },
       ],
     });
