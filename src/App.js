@@ -29,31 +29,7 @@ function App() {
       const provider = anyWindow.phantom?.ethereum;
      
       if (provider) {
-        try {
-          const accounts = await provider.request({ method: 'eth_requestAccounts' });
-          await provider.request({
-            method: 'wallet_switchEthereumChain',
-            params: [quicknodeRPCConfig]
-          });
-          
-          //get account to Mint and Send NFT
-          account_client = accounts[0];
-
-          //send log to verify account and provider
-          console.log(account_client);
-          console.log(provider);
-
-          // return the provider
-          return provider;
-          
-        } catch (error) {
-          console.error(error);
-        }
-
-
-
-
-        /*  provider.request({
+         provider.request({
           method: 'eth_requestAccounts'
         }).then((accounts) => {
           
@@ -69,9 +45,8 @@ function App() {
             //send log to verify account and provider
             console.log(account_client);
             console.log(provider);
-             
-            // return the provider
-            return provider;
+             // return the provider
+        return provider;
 
           }).catch((error) => {
             console.error(error);
@@ -79,7 +54,7 @@ function App() {
 
         }).catch((error) => {
           console.error(error);
-        }); */
+        });
       }
     }else{
 
@@ -90,13 +65,15 @@ function App() {
   };
   
   //Get provider with Polygon and Mumbai - QuickNode RPC
-  const provider = getProvider();
+  const phantomProviderEVM = getProvider();
   
   
   //Create a Tx example in Polygon Mumbai network - QuickNode RPC
   async function testingtx () {
     console.log("send tx",account_client);
-    const result = await provider.request({
+    console.log("phantomprovider=>",phantomProviderEVM);
+    
+    const result = await phantomProviderEVM.request({
       method: 'eth_sendTransaction',
       params: [
         {
