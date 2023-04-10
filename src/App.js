@@ -29,7 +29,31 @@ function App() {
       const provider = anyWindow.phantom?.ethereum;
      
       if (provider) {
-         provider.request({
+        try {
+          const accounts = await provider.request({ method: 'eth_requestAccounts' });
+          await provider.request({
+            method: 'wallet_switchEthereumChain',
+            params: [quicknodeRPCConfig]
+          });
+          
+          //get account to Mint and Send NFT
+          account_client = accounts[0];
+
+          //send log to verify account and provider
+          console.log(account_client);
+          console.log(provider);
+
+          // return the provider
+          return provider;
+          
+        } catch (error) {
+          console.error(error);
+        }
+
+
+
+
+        /*  provider.request({
           method: 'eth_requestAccounts'
         }).then((accounts) => {
           
@@ -55,7 +79,7 @@ function App() {
 
         }).catch((error) => {
           console.error(error);
-        });
+        }); */
       }
     }else{
 
