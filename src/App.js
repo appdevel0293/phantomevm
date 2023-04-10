@@ -5,6 +5,9 @@ function App() {
   //create var to save account
   var account_client = null;
 
+  //Get provider with Polygon and Mumbai - QuickNode RPC
+  var phantomProviderEVM = null;
+
   //create const to set provider, chain and RPC
   const quicknodeRPCConfig = {
     chainId: '0x13881',
@@ -28,8 +31,6 @@ function App() {
       const anyWindow = window;
       const provider = anyWindow.phantom?.ethereum;
       
-      //Get provider with Polygon and Mumbai - QuickNode RPC
-      var phantomProviderEVM = null;
      
       if (provider) {
          provider.request({
