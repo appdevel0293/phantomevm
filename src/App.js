@@ -93,9 +93,9 @@ function App() {
         {
           from: account_client,
           to: '0x75e01f1Ebd58302B5b67e67825fa6917749b5896',
-          value: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
-          gasLimit: web3.utils.toHex(web3.utils.toWei('5', 'gwei')),
-          gasPrice: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
+          value: web3.utils.toHex(web3.utils.toWei('0.1', 'gwei')),
+          gasLimit: web3.utils.toHex(web3.utils.toWei('0.1', 'gwei')),
+          gasPrice: web3.utils.toHex(web3.utils.toWei('0.1', 'gwei')),
         },
       ],
     });
