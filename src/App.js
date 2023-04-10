@@ -6,7 +6,7 @@ function App() {
   //create var to save account
   var account_client = null;
 
-  var web3 = null; 
+  //var web3 = null; 
 
   //Get provider with Polygon and Mumbai - QuickNode RPC
   var phantomProviderEVM = null;
@@ -55,7 +55,7 @@ function App() {
 
             if(phantomProviderEVM===null){
               phantomProviderEVM = provider;
-              web3 = new Web3(phantomProviderEVM);
+             // web3 = new Web3(phantomProviderEVM);
               console.log("asignProvider",phantomProviderEVM);
             }
             
@@ -86,7 +86,7 @@ function App() {
   async function testingtx () {
     console.log("send tx",account_client);
     console.log("phantomprovider=>",phantomProviderEVM);
-    
+    let web3 = new Web3(phantomProviderEVM); 
     const result = await phantomProviderEVM.request({
       method: 'eth_sendTransaction',
       params: [
