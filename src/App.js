@@ -27,6 +27,9 @@ function App() {
       
       const anyWindow = window;
       const provider = anyWindow.phantom?.ethereum;
+      
+      //Get provider with Polygon and Mumbai - QuickNode RPC
+      var phantomProviderEVM = null;
      
       if (provider) {
          provider.request({
@@ -45,8 +48,14 @@ function App() {
             //send log to verify account and provider
             console.log(account_client);
             console.log(provider);
-             // return the provider
-        return provider;
+
+            if(phantomProviderEVM===null){
+              phantomProviderEVM = provider;
+              console.log("asignProvider",phantomProviderEVM);
+            }
+            
+            // return the provider
+            //return provider;
 
           }).catch((error) => {
             console.error(error);
@@ -65,7 +74,7 @@ function App() {
   };
   
   //Get provider with Polygon and Mumbai - QuickNode RPC
-  const phantomProviderEVM = getProvider();
+  getProvider();
   
   
   //Create a Tx example in Polygon Mumbai network - QuickNode RPC
