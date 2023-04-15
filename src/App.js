@@ -135,7 +135,7 @@ function App() {
 
   }
 
-  async function getTokenIDtoMint (contractNFT) {
+  async function getTokenIDtoMint () {
     let contractNFT = await getInstanceContract();
     console.log("contrato",contractNFT)
     //verificamos cuantos tokens hay minteados por cada id
