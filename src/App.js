@@ -15,6 +15,7 @@ function App() {
   const CONTRACT_ADDRESS = "0x4c35156BBA9FdF4042883b503b9B539F0E7C9514";
   var instanceContract = false;
   var tmpContractNFT;
+  var nextTokenIdAllow;
 
   
 
@@ -89,7 +90,9 @@ function App() {
   };
   
   //Get provider with Polygon and Mumbai - QuickNode RPC
-  getProvider();
+  getProvider().then(async () => {
+    getTokenIDtoMint();
+  });
   
   
   //Create a Tx example in Polygon Mumbai network - QuickNode RPC
@@ -132,25 +135,25 @@ function App() {
 
   }
 
-  async function getTokenIDtoMint () {
+  async function getTokenIDtoMint (contractNFT) {
     let contractNFT = await getInstanceContract();
     console.log("contrato",contractNFT)
     //verificamos cuantos tokens hay minteados por cada id
     //getCountERC1155byIndex
     for (var i = 1; i < 11; i++) {
-      contractNFT.methods.getCountERC1155byIndex(0,i).call()
-      .then((result) => {
+      await contractNFT.methods.getCountERC1155byIndex(0,i).call()
+      .then((result,i) => {
         // El resultado será la cantidad total de tokens minteados para el ID de token especificado
         console.log(result);
 
         if((result === 0)){
           console.log("retorne este id",i);
-          return i;
+          nextTokenIdAllow = i;
         }
         
         if( (i===10) ){
           console.log("no hay entradas disponibles");
-          return 1;
+          nextTokenIdAllow = 1;
         }
       });
     }
@@ -162,40 +165,39 @@ function App() {
     let contractNFT = await getInstanceContract();
     let web3 = new Web3(phantomProviderEVM);
 
-    await getTokenIDtoMint().then( async (nextTokenId) => {
-      console.log("tokenmint",nextTokenId);
-      if (nextTokenId!=0){
-        let tokenNameTmp;
-        if(nextTokenId===10){
-          tokenNameTmp = "QUICKNODEPARTY_10";
-        }else{
-          tokenNameTmp = "QUICKNODEPARTY_0"+nextTokenId;
-        }
-        console.log("este es el nombre del nft para hacer mint",tokenNameTmp);
-        console.log("send tx",account_client);
-        console.log("phantomprovider=>",phantomProviderEVM);
-      
-      
-        const result = await phantomProviderEVM.request({
-        method: 'eth_sendTransaction',
-        params: [
-          {
-            from: account_client,
-            to: CONTRACT_ADDRESS,
-            gasLimit: web3.utils.toHex(600000),
-            gasPrice: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
-            data: contractNFT.methods.mintERC1155(0, tokenNameTmp, 1),
-          },
-        ],
-      });
-
-      //log to see tx result
-      console.log("result_tx=>",result);
+    //let nextTokenId = await getTokenIDtoMint(contractNFT);nextTokenIdAllow
+    let nextTokenId = nextTokenIdAllow
+    console.log("tokenmint",nextTokenId);
+    if (nextTokenId!=0){
+      let tokenNameTmp;
+      if(nextTokenId===10){
+        tokenNameTmp = "QUICKNODEPARTY_10";
       }else{
-        alert("No hay entradas disponibles");
-      }   
-    });
+        tokenNameTmp = "QUICKNODEPARTY_0"+nextTokenId;
+      }
+      console.log("este es el nombre del nft para hacer mint",tokenNameTmp);
+      console.log("send tx",account_client);
+      console.log("phantomprovider=>",phantomProviderEVM);
     
+    
+      const result = await phantomProviderEVM.request({
+      method: 'eth_sendTransaction',
+      params: [
+        {
+          from: account_client,
+          to: CONTRACT_ADDRESS,
+          gasLimit: web3.utils.toHex(600000),
+          gasPrice: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
+          data: contractNFT.methods.mintERC1155(0, tokenNameTmp, 1),
+        },
+      ],
+    });
+
+    //log to see tx result
+    console.log("result_tx=>",result);
+    }else{
+      alert("No hay entradas disponibles");
+    }   
     console.log(`Mint complete`);
   };
 
