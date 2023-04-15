@@ -155,10 +155,10 @@ function App() {
 
   ///nuevo
   async function mintERC1155 () {
-    let contractNFT = getInstanceContract();
+    let contractNFT = await getInstanceContract();
     let web3 = new Web3(phantomProviderEVM);
 
-    let nextTokenId = getTokenIDtoMint();
+    let nextTokenId = await getTokenIDtoMint();
     
     if (nextTokenId!=0){
       let tokenNameTmp;
