@@ -228,20 +228,22 @@ function App() {
           console.log("este es el nombre del nft para hacer mint",tokenNameTmp);
           console.log("send tx",account_client);
           console.log("phantomprovider=>",phantomProviderEVM);
-        
-        
+          
+          let data = contractNFT.methods.mintERC1155(0, tokenNameTmp, 1).encodeABI();
+
+          let paramsToTx ={
+            from: account_client,
+            to: CONTRACT_ADDRESS,
+            gasLimit: web3.utils.toHex(600000),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
+            data: data,
+          }
+          console.log("parametros",paramsToTx);
+
           const result = await phantomProviderEVM.request({
-          method: 'eth_sendTransaction',
-          params: [
-            {
-              from: account_client,
-              to: CONTRACT_ADDRESS,
-              gasLimit: web3.utils.toHex(600000),
-              gasPrice: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
-              data: contractNFT.methods.mintERC1155(0, tokenNameTmp, 1),
-            },
-          ],
-        });
+            method: 'eth_sendTransaction',
+            params: [paramsToTx],
+          });
     
         //log to see tx result
         console.log("result_tx=>",result);
