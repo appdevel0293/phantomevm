@@ -162,38 +162,40 @@ function App() {
     let contractNFT = await getInstanceContract();
     let web3 = new Web3(phantomProviderEVM);
 
-    let nextTokenId = await getTokenIDtoMint();
-    console.log("tokenmint",nextTokenId);
-    if (nextTokenId!=0){
-      let tokenNameTmp;
-      if(nextTokenId===10){
-        tokenNameTmp = "QUICKNODEPARTY_10";
-      }else{
-        tokenNameTmp = "QUICKNODEPARTY_0"+nextTokenId;
-      }
-      console.log("este es el nombre del nft para hacer mint",tokenNameTmp);
-      console.log("send tx",account_client);
-      console.log("phantomprovider=>",phantomProviderEVM);
-    
-    
-      const result = await phantomProviderEVM.request({
-      method: 'eth_sendTransaction',
-      params: [
-        {
-          from: account_client,
-          to: CONTRACT_ADDRESS,
-          gasLimit: web3.utils.toHex(600000),
-          gasPrice: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
-          data: contractNFT.methods.mintERC1155(0, tokenNameTmp, 1),
-        },
-      ],
-    });
+    await getTokenIDtoMint().then( async (nextTokenId) => {
+      console.log("tokenmint",nextTokenId);
+      if (nextTokenId!=0){
+        let tokenNameTmp;
+        if(nextTokenId===10){
+          tokenNameTmp = "QUICKNODEPARTY_10";
+        }else{
+          tokenNameTmp = "QUICKNODEPARTY_0"+nextTokenId;
+        }
+        console.log("este es el nombre del nft para hacer mint",tokenNameTmp);
+        console.log("send tx",account_client);
+        console.log("phantomprovider=>",phantomProviderEVM);
+      
+      
+        const result = await phantomProviderEVM.request({
+        method: 'eth_sendTransaction',
+        params: [
+          {
+            from: account_client,
+            to: CONTRACT_ADDRESS,
+            gasLimit: web3.utils.toHex(600000),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
+            data: contractNFT.methods.mintERC1155(0, tokenNameTmp, 1),
+          },
+        ],
+      });
 
-    //log to see tx result
-    console.log("result_tx=>",result);
-    }else{
-      alert("No hay entradas disponibles");
-    }   
+      //log to see tx result
+      console.log("result_tx=>",result);
+      }else{
+        alert("No hay entradas disponibles");
+      }   
+    });
+    
     console.log(`Mint complete`);
   };
 
