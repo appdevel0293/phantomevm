@@ -136,8 +136,9 @@ function App() {
     let contractNFT = await getInstanceContract();
     console.log("contrato",contractNFT)
     //verificamos cuantos tokens hay minteados por cada id
+    //getCountERC1155byIndex
     for (var i = 1; i < 11; i++) {
-      contractNFT.methods.totalSupply(i).call()
+      contractNFT.methods.getCountERC1155byIndex(0,i).call()
       .then((result) => {
         // El resultado será la cantidad total de tokens minteados para el ID de token especificado
         console.log(result);
@@ -146,7 +147,7 @@ function App() {
           return result;
         }else if( (i===10) && (result>0)){
           console.log("no hay entradas disponibles");
-          return 0;
+          return 1;
         }
       });
     }
