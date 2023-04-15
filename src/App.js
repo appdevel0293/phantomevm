@@ -12,7 +12,7 @@ function App() {
 
   //nuevo
   //Direccion del contrato
-  const CONTRACT_ADDRESS = "0x4c35156BBA9FdF4042883b503b9B539F0E7C9514";
+  const CONTRACT_ADDRESS = "0xbF3Ec86D5FfFcF78169fbC74271F5C93f344C5F0";
   var instanceContract = false;
   var tmpContractNFT;
 
@@ -132,63 +132,6 @@ function App() {
 
   }
 
-/*   async function getTokenIDtoMint (contractNFT) {
-    //let contractNFT = await getInstanceContract();
-    console.log("contrato",contractNFT)
-    //verificamos cuantos tokens hay minteados por cada id
-    //getCountERC1155byIndex
-    for (var i = 1; i < 11; i++) {
-      await contractNFT.methods.getCountERC1155byIndex(0,i).call()
-      .then((result,i) => {
-        // El resultado será la cantidad total de tokens minteados para el ID de token especificado
-        console.log(result);
-
-        if((result === 0)){
-          console.log("retorne este id",i);
-          return i;
-        }
-        
-        if( (i===10) ){
-          console.log("no hay entradas disponibles");
-          return 1;
-        }
-      });
-    }
-    
-  } */
- /*  async function getTokenIDtoMint (contractNFT) {
-    console.log("contrato",contractNFT);
-    const promises = [];
-  
-    // Agregar todas las promesas a un array para que se resuelvan en paralelo
-    for (var i = 1; i < 11; i++) {
-      promises.push(
-        contractNFT.methods.getCountERC1155byIndex(0,i).call().then((result) => {
-          console.log(result);
-          console.log(i);
-          if (result === '0') {
-            console.log("retorne este id", i);
-            return i;
-          }
-          if (i === 10) {
-            console.log("no hay entradas disponibles");
-            return 1;
-          }
-        })
-      );
-    }
-  
-    // Esperar a que se resuelvan todas las promesas antes de continuar
-    const results = await Promise.all(promises);
-  
-    // Devolver el valor de la primera promesa que se resolvió
-    for (const result of results) {
-      if (result===0) {
-        return result;
-      }
-    }
-  } */
-
   async function getTokenIDtoMint(contractNFT) {
     for (let i = 1; i < 11; i++) {
       let tokenId = i;
@@ -202,7 +145,7 @@ function App() {
   
       if (i === 10) {
         console.log("no hay entradas disponibles");
-        return 1;
+        return 0;
       }
     }
   }
@@ -221,9 +164,9 @@ function App() {
         
           let tokenNameTmp;
           if(nextTokenId===10){
-            tokenNameTmp = "QUICKNODEPARTY_10";
+            tokenNameTmp = "NFTPASS_QUICKNODEPARTY_10";
           }else{
-            tokenNameTmp = "QUICKNODEPARTY_0"+nextTokenId;
+            tokenNameTmp = "NFTPASS_QUICKNODEPARTY_0"+nextTokenId;
           }
           console.log("este es el nombre del nft para hacer mint",tokenNameTmp);
           console.log("send tx",account_client);
