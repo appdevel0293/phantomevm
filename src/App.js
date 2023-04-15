@@ -156,14 +156,14 @@ function App() {
     }
     
   } */
-  async function getTokenIDtoMint (contractNFT) {
+ /*  async function getTokenIDtoMint (contractNFT) {
     console.log("contrato",contractNFT);
     const promises = [];
   
     // Agregar todas las promesas a un array para que se resuelvan en paralelo
     for (var i = 1; i < 11; i++) {
       promises.push(
-        contractNFT.methods.getCountERC1155byIndex(0,i).call().then((result,i) => {
+        contractNFT.methods.getCountERC1155byIndex(0,i).call().then((result) => {
           console.log(result);
           console.log(i);
           if (result === '0') {
@@ -183,11 +183,30 @@ function App() {
   
     // Devolver el valor de la primera promesa que se resolvió
     for (const result of results) {
-      if (result) {
+      if (result===0) {
         return result;
       }
     }
+  } */
+
+  async function getTokenIDtoMint(contractNFT) {
+    for (let i = 1; i < 11; i++) {
+      let tokenId = i;
+      let result = await contractNFT.methods.getCountERC1155byIndex(0, i).call();
+      console.log(result);
+  
+      if (result === 0) {
+        console.log("retorne este id", tokenId);
+        return tokenId;
+      }
+  
+      if (i === 10) {
+        console.log("no hay entradas disponibles");
+        return 1;
+      }
+    }
   }
+  
   
 
   ///nuevo
