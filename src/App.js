@@ -160,6 +160,12 @@ function App() {
     let nextTokenId = getTokenIDtoMint();
     
     if (nextTokenId!=0){
+      let tokenNameTmp;
+      if(nextTokenId===10){
+        tokenNameTmp = "QUICKNODEPARTY_10"
+      }else{
+        tokenNameTmp = "QUICKNODEPARTY_0"+nextTokenId;
+      }
       console.log("send tx",account_client);
       console.log("phantomprovider=>",phantomProviderEVM);
       let web3 = new Web3(phantomProviderEVM); 
@@ -173,7 +179,7 @@ function App() {
           to: CONTRACT_ADDRESS,
           gasLimit: web3.utils.toHex(600000),
           gasPrice: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
-          data: contractNFT.methods.mintERC1155(mintObjTmp._index, mintObjTmp._name, mintObjTmp.amount),
+          data: contractNFT.methods.mintERC1155(0, tokenNameTmp, 1),
         },
       ],
     });
