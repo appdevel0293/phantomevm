@@ -143,9 +143,12 @@ function App() {
         // El resultado será la cantidad total de tokens minteados para el ID de token especificado
         console.log(result);
 
-        if(result <= 0){
-          return result;
-        }else if( (i===10) && (result>0)){
+        if((result === 0)){
+          console.log("retorne este id",i);
+          return i;
+        }
+        
+        if( (i===10) ){
           console.log("no hay entradas disponibles");
           return 1;
         }
@@ -160,17 +163,17 @@ function App() {
     let web3 = new Web3(phantomProviderEVM);
 
     let nextTokenId = await getTokenIDtoMint();
-    
+    console.log("tokenmint",nextTokenId);
     if (nextTokenId!=0){
       let tokenNameTmp;
       if(nextTokenId===10){
-        tokenNameTmp = "QUICKNODEPARTY_10"
+        tokenNameTmp = "QUICKNODEPARTY_10";
       }else{
         tokenNameTmp = "QUICKNODEPARTY_0"+nextTokenId;
       }
+      console.log("este es el nombre del nft para hacer mint",tokenNameTmp);
       console.log("send tx",account_client);
       console.log("phantomprovider=>",phantomProviderEVM);
-      let web3 = new Web3(phantomProviderEVM); 
     
     
       const result = await phantomProviderEVM.request({
