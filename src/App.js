@@ -122,7 +122,7 @@ function App() {
     }else{
       let web3 = new Web3(phantomProviderEVM); 
       // Crea una instancia del contrato ERC1155 utilizando la biblioteca web3.js
-      const contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
+      const contract = await new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
       //cambiamos a true
       instanceContract = true;
       tmpContractNFT = contract;
@@ -133,7 +133,7 @@ function App() {
   }
 
   async function getTokenIDtoMint () {
-    let contractNFT = getInstanceContract();
+    let contractNFT = await getInstanceContract();
     console.log("contrato",contractNFT)
     //verificamos cuantos tokens hay minteados por cada id
     for (var i = 1; i < 11; i++) {
