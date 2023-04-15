@@ -2,7 +2,7 @@ import './App.css';
 import Web3 from 'web3';
 
 //nuevos import
-import * as ABI from "./abicontract.json";
+import ABI from "./abicontract.json";
 
 
 function App() {
@@ -134,6 +134,7 @@ function App() {
 
   async function getTokenIDtoMint () {
     let contractNFT = getInstanceContract();
+    console.log("contrato",contractNFT)
     //verificamos cuantos tokens hay minteados por cada id
     for (var i = 1; i < 11; i++) {
       contractNFT.methods.totalSupply(i).call()
