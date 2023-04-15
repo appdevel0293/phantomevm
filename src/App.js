@@ -163,8 +163,9 @@ function App() {
     // Agregar todas las promesas a un array para que se resuelvan en paralelo
     for (var i = 1; i < 11; i++) {
       promises.push(
-        contractNFT.methods.getCountERC1155byIndex(0,i).call().then((result) => {
+        contractNFT.methods.getCountERC1155byIndex(0,i).call().then((result,i) => {
           console.log(result);
+          console.log(i);
           if (result === '0') {
             console.log("retorne este id", i);
             return i;
