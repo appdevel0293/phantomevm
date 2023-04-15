@@ -15,7 +15,6 @@ function App() {
   const CONTRACT_ADDRESS = "0x4c35156BBA9FdF4042883b503b9B539F0E7C9514";
   var instanceContract = false;
   var tmpContractNFT;
-  var nextTokenIdAllow;
 
   
 
@@ -90,9 +89,7 @@ function App() {
   };
   
   //Get provider with Polygon and Mumbai - QuickNode RPC
-  getProvider().then(async () => {
-    getTokenIDtoMint();
-  });
+  getProvider();
   
   
   //Create a Tx example in Polygon Mumbai network - QuickNode RPC
@@ -135,8 +132,8 @@ function App() {
 
   }
 
-  async function getTokenIDtoMint () {
-    let contractNFT = await getInstanceContract();
+/*   async function getTokenIDtoMint (contractNFT) {
+    //let contractNFT = await getInstanceContract();
     console.log("contrato",contractNFT)
     //verificamos cuantos tokens hay minteados por cada id
     //getCountERC1155byIndex
@@ -148,25 +145,98 @@ function App() {
 
         if((result === 0)){
           console.log("retorne este id",i);
-          nextTokenIdAllow = i;
+          return i;
         }
         
         if( (i===10) ){
           console.log("no hay entradas disponibles");
-          nextTokenIdAllow = 1;
+          return 1;
         }
       });
     }
     
+  } */
+  async function getTokenIDtoMint (contractNFT) {
+    console.log("contrato",contractNFT);
+    const promises = [];
+  
+    // Agregar todas las promesas a un array para que se resuelvan en paralelo
+    for (var i = 1; i < 11; i++) {
+      promises.push(
+        contractNFT.methods.getCountERC1155byIndex(0,i).call().then((result) => {
+          console.log(result);
+          if (result === '0') {
+            console.log("retorne este id", i);
+            return i;
+          }
+          if (i === 10) {
+            console.log("no hay entradas disponibles");
+            return 1;
+          }
+        })
+      );
+    }
+  
+    // Esperar a que se resuelvan todas las promesas antes de continuar
+    const results = await Promise.all(promises);
+  
+    // Devolver el valor de la primera promesa que se resolvió
+    for (const result of results) {
+      if (result) {
+        return result;
+      }
+    }
   }
+  
 
   ///nuevo
   async function mintERC1155 () {
     let contractNFT = await getInstanceContract();
     let web3 = new Web3(phantomProviderEVM);
 
-    //let nextTokenId = await getTokenIDtoMint(contractNFT);nextTokenIdAllow
-    let nextTokenId = nextTokenIdAllow
+    try {
+      let nextTokenId = await getTokenIDtoMint(contractNFT);
+      console.log("tokenmint",nextTokenId);
+      if (nextTokenId!=0){
+        
+          let tokenNameTmp;
+          if(nextTokenId===10){
+            tokenNameTmp = "QUICKNODEPARTY_10";
+          }else{
+            tokenNameTmp = "QUICKNODEPARTY_0"+nextTokenId;
+          }
+          console.log("este es el nombre del nft para hacer mint",tokenNameTmp);
+          console.log("send tx",account_client);
+          console.log("phantomprovider=>",phantomProviderEVM);
+        
+        
+          const result = await phantomProviderEVM.request({
+          method: 'eth_sendTransaction',
+          params: [
+            {
+              from: account_client,
+              to: CONTRACT_ADDRESS,
+              gasLimit: web3.utils.toHex(600000),
+              gasPrice: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
+              data: contractNFT.methods.mintERC1155(0, tokenNameTmp, 1),
+            },
+          ],
+        });
+    
+        //log to see tx result
+        console.log("result_tx=>",result);
+        
+      } else {
+        alert("No hay entradas disponibles");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    
+
+/*
+
+    let nextTokenId = await getTokenIDtoMint(contractNFT);
     console.log("tokenmint",nextTokenId);
     if (nextTokenId!=0){
       let tokenNameTmp;
@@ -198,7 +268,7 @@ function App() {
     }else{
       alert("No hay entradas disponibles");
     }   
-    console.log(`Mint complete`);
+    console.log(`Mint complete`);*/
   };
 
 
