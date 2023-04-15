@@ -1,12 +1,22 @@
 import './App.css';
 import Web3 from 'web3';
 
+//nuevos import
+import * as ABI from "./abicontract.json";
+
+
 function App() {
 
   //create var to save account
   var account_client = null;
 
-  //var web3 = null; 
+  //nuevo
+  //Direccion del contrato
+  const CONTRACT_ADDRESS = "0x4c35156BBA9FdF4042883b503b9B539F0E7C9514";
+  var instanceContract = false;
+  var tmpContractNFT;
+
+  
 
   //Get provider with Polygon and Mumbai - QuickNode RPC
   var phantomProviderEVM = null;
@@ -104,6 +114,86 @@ function App() {
     console.log("result_tx=>",result);
   }
 
+  //nuevo
+  async function getInstanceContract () {
+    
+    if(instanceContract){
+      return tmpContractNFT;
+    }else{
+      let web3 = new Web3(phantomProviderEVM); 
+      // Crea una instancia del contrato ERC1155 utilizando la biblioteca web3.js
+      const contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
+      //cambiamos a true
+      instanceContract = true;
+      tmpContractNFT = contract;
+      return tmpContractNFT;
+    }
+    
+
+  }
+
+  async function getTokenIDtoMint () {
+    let contractNFT = getInstanceContract();
+    //verificamos cuantos tokens hay minteados por cada id
+    for (var i = 1; i < 11; i++) {
+      contractNFT.methods.totalSupply(i).call()
+      .then((result) => {
+        // El resultado será la cantidad total de tokens minteados para el ID de token especificado
+        console.log(result);
+
+        if(result <= 0){
+          return result;
+        }else if( (i===10) && (result>0)){
+          console.log("no hay entradas disponibles");
+          return 0;
+        }
+      });
+    }
+    
+  }
+
+  ///nuevo
+  async function mintERC1155 () {
+    let contractNFT = getInstanceContract();
+    let web3 = new Web3(phantomProviderEVM);
+
+    let nextTokenId = getTokenIDtoMint();
+    
+    if (nextTokenId!=0){
+      console.log("send tx",account_client);
+      console.log("phantomprovider=>",phantomProviderEVM);
+      let web3 = new Web3(phantomProviderEVM); 
+    
+    
+      const result = await phantomProviderEVM.request({
+      method: 'eth_sendTransaction',
+      params: [
+        {
+          from: account_client,
+          to: CONTRACT_ADDRESS,
+          gasLimit: web3.utils.toHex(600000),
+          gasPrice: web3.utils.toHex(web3.utils.toWei('3', 'gwei')),
+          data: contractNFT.methods.mintERC1155(mintObjTmp._index, mintObjTmp._name, mintObjTmp.amount),
+        },
+      ],
+    });
+
+    //log to see tx result
+    console.log("result_tx=>",result);
+    }else{
+      alert("No hay entradas disponibles");
+    }   
+    console.log(`Mint complete`);
+  };
+
+
+  async function  isVerified () {
+    let contractNFT = getInstanceContract();
+    const data = await contractNFT.methods.getVerified(0,2).call().then((d)=>{
+      console.log(`isVerified: ${d}`);
+    });
+  };
+
   return (
     
     <div className="App">
@@ -112,6 +202,8 @@ function App() {
           Mint and Verify NFT
         </p>
         <button onClick={testingtx} >Send TX </button>
+        <button onClick={mintERC1155} >Mint </button>
+        <button onClick={isVerified} >Test Verify </button>
       </header>
     </div>
   );
