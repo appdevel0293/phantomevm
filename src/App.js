@@ -164,9 +164,9 @@ function App() {
         
           let tokenNameTmp;
           if(nextTokenId===10){
-            tokenNameTmp = "QUICKNODEPARTY_10";
+            tokenNameTmp = "NFTPASS_QUICKNODEPARTY_10";
           }else{
-            tokenNameTmp = "QUICKNODEPARTY_0"+nextTokenId;
+            tokenNameTmp = "NFTPASS_QUICKNODEPARTY_0"+nextTokenId;
           }
           console.log("este es el nombre del nft para hacer mint",tokenNameTmp);
           console.log("send tx",account_client);
