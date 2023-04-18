@@ -12,7 +12,7 @@ function App() {
 
   //nuevo
   //Direccion del contrato
-  const CONTRACT_ADDRESS = "0xbF3Ec86D5FfFcF78169fbC74271F5C93f344C5F0";
+  const CONTRACT_ADDRESS = "0x4c35156BBA9FdF4042883b503b9B539F0E7C9514";
   var instanceContract = false;
   var tmpContractNFT;
 
@@ -131,14 +131,14 @@ function App() {
     
 
   }
-
+  
   async function getTokenIDtoMint(contractNFT) {
     for (let i = 1; i < 11; i++) {
       let tokenId = i;
       let result = await contractNFT.methods.getCountERC1155byIndex(0, i).call();
       console.log(result);
   
-      if (result === 0) {
+      if ((result === '0') || (result === 0)) {
         console.log("retorne este id", tokenId);
         return tokenId;
       }
@@ -164,9 +164,9 @@ function App() {
         
           let tokenNameTmp;
           if(nextTokenId===10){
-            tokenNameTmp = "NFTPASS_QUICKNODEPARTY_10";
+            tokenNameTmp = "QUICKNODEPARTY_10";
           }else{
-            tokenNameTmp = "NFTPASS_QUICKNODEPARTY_0"+nextTokenId;
+            tokenNameTmp = "QUICKNODEPARTY_0"+nextTokenId;
           }
           console.log("este es el nombre del nft para hacer mint",tokenNameTmp);
           console.log("send tx",account_client);
