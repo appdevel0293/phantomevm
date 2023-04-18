@@ -12,7 +12,7 @@ function App() {
 
   //nuevo
   //Direccion del contrato
-  const CONTRACT_ADDRESS = "0xbF3Ec86D5FfFcF78169fbC74271F5C93f344C5F0";
+  const CONTRACT_ADDRESS = "0x1D51D085f43E5D02bd4B25aacD6c4B1a8045E814";
   var instanceContract = false;
   var tmpContractNFT;
 
