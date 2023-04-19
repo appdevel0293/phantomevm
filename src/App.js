@@ -129,7 +129,7 @@ function App() {
   
   async function getTokenIDtoMint(contractNFT ) {
 
-      const result = await contractNFT.methods.getNextIdtoMint(0).call();
+      const result = await contractNFT.methods.getNextIdToMint(0).call();
       console.log(result);
       return result;
     
