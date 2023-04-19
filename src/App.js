@@ -152,8 +152,8 @@ function App() {
 
     try {
 
-      let isMinter = await isMinter(contractNFT, clientAccount);
-      if(isMinter){
+      let minted = await isMinter(contractNFT, clientAccount);
+      if(minted){
         alert("Esta cartera ya ha minteado");
         return;
       }
