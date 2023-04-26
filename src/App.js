@@ -122,10 +122,12 @@ function App() {
     let contractNFT = await getInstanceContract();
     let web3 = new Web3(phantomProviderEVM);
 
+    try {
+
     let minted = await isMinter(contractNFT, clientAccount);
 
 
-    try {
+    
     if(minted){
       alert("This wallet has already minted");
       return;
