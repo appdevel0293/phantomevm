@@ -12,7 +12,7 @@ function App() {
 
   //nuevo
   //Direccion del contrato
-  const CONTRACT_ADDRESS = "0x396aa4fc9Aa53d5A7664401CD9F3514F7Ad10608";
+  const CONTRACT_ADDRESS = "0x62Ab0E76DCDdE40c110bb8363ed66a1eC97a48BB";
   var tmpContractNFT = null;
  
 
@@ -172,9 +172,9 @@ function App() {
 
     console.log("result_tx=> ",result);
 
-    } catch (error) {
-      console.error(error);
-    }
+  } catch (error) {
+    console.error(error);
+  }
 
    
     
